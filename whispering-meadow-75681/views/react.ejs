@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+
+		<!--<title>Hello</title>
+		<script src="https://unpkg.com/react@latest/dist/react.js"></script>
+		<script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+		<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+		-->
+		
+		<script src="javascripts/react.js"></script>
+		<script src="javascripts/react-dom.js"></script>
+		<script src="javascripts/browser.min.js"></script>
+		
+	
+
+	</head>
+
+	<body>
+		<div id="root"></div>
+		<div id="example"></div>
+		<div id="ming"></div>
+		<div id="wangfeng"></div>
+		<div id="zujian"></div>
+		<div id="zijiedian"></div>
+		<div id="zijiedian1"></div>
+		<div id="proptype"></div>
+		<div id="huoquyuansu"></div>
+		<div id="zujianqiantao"></div>
+
+		<div id='child'></div>
+		<div id='type'></div>
+		<div id='refsdom'></div>
+
+		<div id='setState'></div>
+		<div id="setInput"></div>
+		<div id="componentDidMount"></div>
+		
+
+
+	<script type="text/babel">
+
+		ReactDOM.render(
+			 <h1>Hello, world!</h1>,
+			 document.getElementById('root')
+			 );
+		var names = ['Alice', 'Emily', 'Kate'];
+		var arr = [<h1>wangdong</h1>,<h2>wangmeng</h2>]
+		ReactDOM.render(
+			<div>
+				{
+					names.map(function (name) {
+						return <div>Hello,{name}!</div>;
+						})
+				 }
+			</div>,
+			document.getElementById('example')
+		);
+		ReactDOM.render(
+			<div>{arr}</div>,
+			document.getElementById('ming')
+		);
+		//组件
+		var Wangfeng = React.createClass({
+			 render:function(){
+				 var hellowangdong =[];
+				 for(var i=0;i<10;i++){
+					 hellowangdong.push(
+						 <Hellowangdong key={'key'+i}/>//子元素时要加KEY属性
+					 )
+				 };
+				 return (
+					<div>
+					     <h1>Hello wangfeng</h1>
+						 {hellowangdong}
+					 </div>
+					 );
+				 }
+			});
+		
+
+		var Hellowangxu = React.createClass({
+			alertME:function(){
+				alert('页面点击');
+			},
+			 render:function(){
+				 return <h1 onClick={this.alertME}>Hello {this.props.name}</h1>;
+				 }
+			});
+		ReactDOM.render(
+				 <Hellowangxu name='wangxu'/>,
+				  document.getElementById('zijiedian1'),
+				  function(){
+					  console.log('渲染完成');
+				  }
+		);
+
+		var Hellowangdong = React.createClass({
+			render:function(){
+				return (<h2>我是汪栋</h2>);
+			}
+		});
+		
+
+	ReactDOM.render(
+			<Wangfeng/>,
+			document.getElementById('zujianqiantao')
+		);
+//获取子元素
+	var NotesList = React.createClass({
+        render: function() {
+          return (
+            <ol>
+              {
+                React.Children.map(this.props.children, function (child) {
+                  return <li>{child}</li>;
+                })
+              }
+            </ol>
+						
+          );
+        }
+      });
+
+      ReactDOM.render(
+        <NotesList>
+          <span name='24'>第一个子元素</span>
+          <span>第二个子元素</span>
+        </NotesList>,
+        document.getElementById('child')
+      );
+
+	  //PropTypes属性
+
+	  var data = 'a';
+
+     var MyTitle=React.createClass({
+		 propTypes:{
+			 title:React.PropTypes.string.isRequired,
+		 },
+		 render:function(){
+			 return <h1>{this.props.title}</h1>
+		 }
+	 });
+
+      ReactDOM.render(
+        <MyTitle title={data} />,
+        document.getElementById('type')
+      );
+
+			//获取真实的DOM节点
+			var MyComponent = React.createClass({
+				handle:function(){
+					this.refs.myTextInput.focus();
+				},
+				render:function(){
+					return (
+						<div>
+							<input type='text' ref='myTextInput'/>
+							<input type='button' value='Focus the text input' onClick={this.handle}/>
+						</div>
+					);
+				}
+			});
+			ReactDOM.render(
+				<MyComponent/>,
+				document.getElementById('refsdom')
+			);
+
+			//this.state
+			var LikeButton = React.createClass({
+				getInitialState:function(){
+					return {like:false};
+				},
+				hanClick:function(event){
+					this.setState({like:!this.state.like});
+				},
+				render:function(){
+					var text = this.state.like?'like is true':'like is false';
+					return (
+						<p onClick={this.hanClick}>
+							you {text}. Click to toggele.
+						</p>
+						
+
+					);
+				}
+			});
+			ReactDOM.render(
+				<LikeButton/>,
+				document.getElementById('setState')
+			);
+
+			//表单
+			var Input = React.createClass({
+				getInitialState:function(){
+					return {value:'Hello'};
+				},
+				handleChange:function(event){
+					this.setState({value:event.target.value});
+				},
+				render:function(){
+					var value = this.state.value;
+					return (
+						<div>
+							<input type='text' value={value} onChange={this.handleChange}/>
+							<p>{value}</p>
+						</div>
+					);
+				}
+			});
+			ReactDOM.render(
+				<Input/>,
+				document.getElementById('setInput')
+			);
+
+			//componentDidMount
+			var Hello = React.createClass({
+				getInitialState:function(){
+					return { opacity:1.0}
+				},
+				componentDidMount:function(){
+					this.timer=setInterval(function(){
+						var opacity = this.state.opacity;
+						opacity -=0.05;
+						if(opacity<0.1){
+							opacity=1.0;
+						}
+						this.setState({
+							opacity:opacity
+						});
+					}.bind(this),500)//绑定到的组件创建插入事件，每隔5毫秒发生一次创建插入事件
+				},
+				render:function(){
+					return (
+						<div style={{opacity:this.state.opacity}}>
+							Hello {this.props.name}
+						</div>
+					);
+				}
+			});
+
+			ReactDOM.render(
+				<Hello name='wangdong'/>,
+				document.getElementById('componentDidMount')
+			);
+
+	
+	</script>
+		
+	</body>
+
+
+</html>

@@ -1,0 +1,30 @@
+<% include header%>
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<h1>New task view</h1>
+		<p>
+			<%=title%>
+		</p>
+		<form method="post" action="/tasks">
+			<fieldset> legend Add a task</fieldset>
+			<div class="clearfix">
+				<label>Task</label>
+				<div class="input-group">
+					<input id="ab" type="text" name="task" required/>
+				</div>
+			</div>
+			<div>
+				<input type="submit" value="Save" class="btn btn-primary" />
+				<button type="reset" class="btn">Cancel</button>
+			</div>
+		</form>
+		
+
+		<% include footer%>
